@@ -11,12 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Square Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Square'),
     );
   }
 }
@@ -60,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        centerTitle: true,
       ),
       body: Column(
         children: [
@@ -85,19 +86,40 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () => moveSquare(0, 10),
+                      onPressed: () => moveSquare(0, -10),
                       child: const Text('Up'),
                     ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     ElevatedButton(
-                      onPressed: () => moveSquare(0, -10),
-                      child: const Text('Down'),
+                      onPressed: () => moveSquare(-10, 0),
+                      child: const Text('Left'),
+                      ),
+                    SizedBox(width: 20,),
+                    ElevatedButton(
+                      onPressed: () => moveSquare(10, 0),
+                      child: const Text('Right'),
                     )
                   ],
-                )
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () => moveSquare(0, 10),
+                        child: const Text('Down'),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
