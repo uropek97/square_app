@@ -34,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   double sizeSquare = 0;
   double positionY = 0;
   double positionX = 0;
+  bool ifTextButtons = true;
 
   @override
   void initState() {
@@ -61,6 +62,12 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
         centerTitle: true,
+        actions: [
+          ElevatedButton(
+            onPressed: (){setState((){ifTextButtons = !ifTextButtons;});}, 
+            child: ifTextButtons ? const Text('Arrows') : const Text('Text'),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -86,14 +93,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
                       onPressed: () => moveSquare(0, -10),
-                      child: const Text('Up'),
+                      child: ifTextButtons ? const Text('Up') : const Icon(Icons.arrow_upward),
                     ),
                   ],
                 ),
@@ -102,12 +109,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     ElevatedButton(
                       onPressed: () => moveSquare(-10, 0),
-                      child: const Text('Left'),
+                      child: ifTextButtons ? const Text('Left') : const Icon(Icons.arrow_forward),
                       ),
-                    SizedBox(width: 20,),
+                    const SizedBox(width: 20,),
                     ElevatedButton(
                       onPressed: () => moveSquare(10, 0),
-                      child: const Text('Right'),
+                      child: ifTextButtons ? const Text('Right') : const Icon(Icons.arrow_back),
                     )
                   ],
                 ),
@@ -116,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     ElevatedButton(
                         onPressed: () => moveSquare(0, 10),
-                        child: const Text('Down'),
+                        child: ifTextButtons ? const Text('Down') : const Icon(Icons.arrow_downward),
                     ),
                   ],
                 ),
