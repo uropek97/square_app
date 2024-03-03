@@ -36,8 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
   double positionY = 0;
   double positionX = 0;
   bool ifTextButtons = true;
-  double stepSize = 0;
-  late String inputValue;
+  double stepSize = 50;
+  late String inputValue = '';
 
   @override
   void initState() {
@@ -102,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () => moveSquare(0, -10),
+                      onPressed: () => moveSquare(0, -stepSize),
                       child: ifTextButtons ? const Text('Up') : const Icon(Icons.arrow_upward),
                     ),
                   ],
@@ -111,13 +111,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () => moveSquare(-10, 0),
-                      child: ifTextButtons ? const Text('Left') : const Icon(Icons.arrow_forward),
+                      onPressed: () => moveSquare(-stepSize, 0),
+                      child: ifTextButtons ? const Text('Left') : const Icon(Icons.arrow_back),
                       ),
                     const SizedBox(width: 20,),
                     ElevatedButton(
-                      onPressed: () => moveSquare(10, 0),
-                      child: ifTextButtons ? const Text('Right') : const Icon(Icons.arrow_back),
+                      onPressed: () => moveSquare(stepSize, 0),
+                      child: ifTextButtons ? const Text('Right') : const Icon(Icons.arrow_forward),
                     )
                   ],
                 ),
@@ -125,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                        onPressed: () => moveSquare(0, 10),
+                        onPressed: () => moveSquare(0, stepSize),
                         child: ifTextButtons ? const Text('Down') : const Icon(Icons.arrow_downward),
                     ),
                   ],
@@ -137,7 +137,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: 100,
                       height: 20,
                       child: TextField(
-                        onChanged: (value) => setState((){inputValue = value;}),
+                        onChanged: (value) => setState((){
+                          inputValue = value;
+                          stepSize = double.parse(inputValue);  
+                        }),
                         decoration: const InputDecoration(
                         labelText: 'Step size: '
                           ),
@@ -146,10 +149,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         ],
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: (){}, 
-                      child: ifTextButtons ? const Text('OK') : const Icon(Icons.done),),
+
+                    //хотел добавить так же и по нажатию кнопки сохранение 
+                    //введённого значения в переменную, но не понял как
+                    // ElevatedButton(
+                    //   onPressed: (){}, 
+                    //   child: ifTextButtons ? const Text('OK') : const Icon(Icons.done),),
                     const SizedBox(width: 20,),
+                    //Text('$inputValue'),
                   ],
                 ),
               ],
