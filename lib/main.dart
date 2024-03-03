@@ -55,7 +55,23 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       positionX += stepX;
       positionY += stepY;
+
+      positionX = positionX.clamp(0, MediaQuery.of(context).size.height - sizeSquare);
+      positionY = positionY.clamp(0, MediaQuery.of(context).size.width - sizeSquare);
     });
+  }
+
+  bool canMoveUp(){
+    return positionY > 0;
+  }
+  bool canMoveDown(){
+    return positionY < MediaQuery.of(context).size.height * 5 / 6; 
+  }
+  bool canMoveLeft(){
+    return positionX > 0;
+  }
+  bool canMoveRight(){
+    return positionX < MediaQuery.of(context).size.width;
   }
 
   @override
@@ -102,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () => moveSquare(0, -stepSize),
+                      onPressed: canMoveUp() ? () => moveSquare(0, -stepSize) : null,
                       child: ifTextButtons ? const Text('Up') : const Icon(Icons.arrow_upward),
                     ),
                   ],
@@ -111,12 +127,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () => moveSquare(-stepSize, 0),
+                      onPressed: canMoveLeft() ? () => moveSquare(-stepSize, 0) : null,
                       child: ifTextButtons ? const Text('Left') : const Icon(Icons.arrow_back),
                       ),
                     const SizedBox(width: 20,),
                     ElevatedButton(
-                      onPressed: () => moveSquare(stepSize, 0),
+                      onPressed: canMoveRight() ? () => moveSquare(stepSize, 0) : null,
                       child: ifTextButtons ? const Text('Right') : const Icon(Icons.arrow_forward),
                     )
                   ],
@@ -125,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                        onPressed: () => moveSquare(0, stepSize),
+                        onPressed: canMoveDown() ? () => moveSquare(0, stepSize) : null,
                         child: ifTextButtons ? const Text('Down') : const Icon(Icons.arrow_downward),
                     ),
                   ],
@@ -134,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      width: 100,
+                      width: 47,
                       height: 20,
                       child: TextField(
                         onChanged: (value) => setState((){
