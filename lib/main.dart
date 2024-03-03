@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:square_app/square.dart';
 
 void main() {
@@ -35,6 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
   double positionY = 0;
   double positionX = 0;
   bool ifTextButtons = true;
+  double stepSize = 0;
+  late String inputValue;
 
   @override
   void initState() {
@@ -65,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           ElevatedButton(
             onPressed: (){setState((){ifTextButtons = !ifTextButtons;});}, 
-            child: ifTextButtons ? const Text('Arrows') : const Text('Text'),
+            child: ifTextButtons ? const Text('Icons') : const Text('Text'),
           ),
         ],
       ),
@@ -125,6 +128,28 @@ class _MyHomePageState extends State<MyHomePage> {
                         onPressed: () => moveSquare(0, 10),
                         child: ifTextButtons ? const Text('Down') : const Icon(Icons.arrow_downward),
                     ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      width: 100,
+                      height: 20,
+                      child: TextField(
+                        onChanged: (value) => setState((){inputValue = value;}),
+                        decoration: const InputDecoration(
+                        labelText: 'Step size: '
+                          ),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: (){}, 
+                      child: ifTextButtons ? const Text('OK') : const Icon(Icons.done),),
+                    const SizedBox(width: 20,),
                   ],
                 ),
               ],
