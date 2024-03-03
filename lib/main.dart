@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Square Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Square'),
@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Container(
                 decoration: BoxDecoration(
                     color: Colors.grey[300],
-                    border: Border.all(color: Colors.indigo)),
+                    border: Border.all(color: Theme.of(context).primaryColorDark)),
                 child: Stack(
                   children: [
                     Positioned(
@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       top: positionY,
                       child: Square(
                         size: sizeSquare,
-                        color: Colors.indigo,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ],
@@ -149,9 +149,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         ],
                       ),
                     ),
-
                     //хотел добавить так же и по нажатию кнопки сохранение 
-                    //введённого значения в переменную, но не понял как
+                    //введённого значения в переменную, но пока не успел разобраться как
                     // ElevatedButton(
                     //   onPressed: (){}, 
                     //   child: ifTextButtons ? const Text('OK') : const Icon(Icons.done),),
