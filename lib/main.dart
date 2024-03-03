@@ -150,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      width: 47,
+                      width: 100,
                       height: 20,
                       child: TextField(
                         onChanged: (value) => setState((){
