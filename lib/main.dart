@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
                 onPressed: () => Navigator.of(context).pushNamed('/cube'),
                 child: const Text('Go to Cube'),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               FilledButton(
                 onPressed: () => Navigator.of(context).pushNamed('/login'), 
                 child: const Text('Go to LogIn'),

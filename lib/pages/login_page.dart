@@ -9,6 +9,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController firstNamecontroller = TextEditingController();
+  TextEditingController lastNamecontroller = TextEditingController();
+
+  @override
+  void dispose() {
+    firstNamecontroller.dispose();
+    lastNamecontroller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +39,9 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width - 40,
                 height: 60,
-                child: const TextField(
-                  decoration: InputDecoration(
+                child: TextField(
+                  controller: firstNamecontroller,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'First Name',
                     ),
@@ -44,8 +55,9 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width - 40,
                 height: 60,
-                child: const TextField(
-                  decoration: InputDecoration(
+                child: TextField(
+                  controller: lastNamecontroller,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Last Name',
                   ),
@@ -57,8 +69,19 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FilledButton(
-                onPressed: () => (){}, 
-                child: const Text('LogIn'),
+                onPressed: () {
+                  String firstName = firstNamecontroller.text;
+                  String lastName = lastNamecontroller.text;
+                  showDialog(
+                    context: context, 
+                    builder: (context) => 
+                      AlertDialog(
+                        title: const Text('ZDAROVA, PUCKICH!'),
+                        content: Text('ZDAROVA, PUCKCH $firstName $lastName'),
+                      ),
+                  );  
+                }, 
+                child: const Text('ZDAROVA, PUCKICH!'),
                 ),
               const SizedBox(height: 20,),
               ],
