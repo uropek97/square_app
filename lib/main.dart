@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:square_app/pages/cube_page.dart';
+import 'package:square_app/pages/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       routes: {
         //'/' :(context) => const HomePage(title: 'Home'),
         '/cube': (context) => const CubePage(),
-        //'/login': (context)
+        '/login': (context) => const LoginPage(),
       },
 
       initialRoute: '/',
@@ -49,11 +50,14 @@ class HomePage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               FilledButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/cube');
-                } ,
+                onPressed: () => Navigator.of(context).pushNamed('/cube'),
                 child: const Text('Go to Cube'),
               ),
+              SizedBox(height: 20,),
+              FilledButton(
+                onPressed: () => Navigator.of(context).pushNamed('/login'), 
+                child: const Text('Go to LogIn'),
+              )
             ]
           ),
         ),
