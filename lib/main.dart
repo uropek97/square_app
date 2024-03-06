@@ -23,9 +23,11 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       theme: ThemeData(
         primaryColor: Colors.pink[100],
-        buttonTheme: ButtonThemeData(
-          buttonColor: Colors.pink[100],
-        ),
+        filledButtonTheme: FilledButtonThemeData( 
+          style: FilledButton.styleFrom(
+            backgroundColor: Colors.pink[100],
+          ), 
+        )
       ),
       home: const HomePage(title: 'Home'),
     );
