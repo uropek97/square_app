@@ -25,12 +25,12 @@ class ListenerPosition extends ChangeNotifier{
     return _positionY > 0;
   }
   bool canMoveDown(double height){
-    return _positionY < height;
+    return _positionY < height - _size;
   }
   bool canMoveLeft(){
     return _positionX > 0;
   }
   bool canMoveRight(double width){
-    return _positionX < width;
+    return _positionX < width - _size;
   }
 }

@@ -18,7 +18,7 @@ class _CubePageState extends State<CubePage> {
   late double containerWidth = 0;
 
   void moveObject(ListenerPosition obj, double stepX, double stepY) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       containerHeight =
           (_containerKey.currentContext!.findRenderObject() as RenderBox)
               .size
