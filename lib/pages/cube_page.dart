@@ -12,18 +12,22 @@ class CubePage extends StatefulWidget {
 
 class _CubePageState extends State<CubePage> {
   double stepSize = 150;
-  ListenerPosition listener = ListenerPosition(0, 0);
+  ListenerPosition listener = ListenerPosition(150, 150);
   final GlobalKey _containerKey = GlobalKey();
-  double containerHeight = 0;
-  double containerWidth = 0;
+  late double containerHeight = 0;
+  late double containerWidth = 0;
 
-  void moveObject(ListenerPosition obj, double stepX, double stepY){
+  void moveObject(ListenerPosition obj, double stepX, double stepY) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      containerHeight = (_containerKey.currentContext!.findRenderObject()
-             as RenderBox).size.height;
-      containerWidth  = (_containerKey.currentContext!.findRenderObject()
-             as RenderBox).size.width;     
-     
+      containerHeight =
+          (_containerKey.currentContext!.findRenderObject() as RenderBox)
+              .size
+              .height;
+      containerWidth =
+          (_containerKey.currentContext!.findRenderObject() as RenderBox)
+              .size
+              .width;
+
       obj.moveObj(stepX, stepY, containerHeight, containerWidth);
     });
   }
@@ -37,83 +41,95 @@ class _CubePageState extends State<CubePage> {
         backgroundColor: Theme.of(context).primaryColor,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back),  
+          icon: const Icon(Icons.arrow_back),
         ),
       ),
       body: Column(
-          children: [
-            Expanded(
-              flex: 3,
-              child: Container(
-                key: _containerKey,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black45),),
-                child:  
-                  Stack(
+        children: [
+          Expanded(
+            flex: 3,
+            child: Container(
+              key: _containerKey,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black45),
+              ),
+              child: Stack(
+                children: [
+                  ListenableBuilder(
+                    listenable: (listener),
+                    builder: (context, child) => Positioned(
+                      top: listener.positionY,
+                      left: listener.positionX,
+                      child: Square(
+                        size: listener.size,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListenableBuilder(
+              listenable: listener,
+              builder: (context, child) => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ListenableBuilder(
-                        listenable: (listener),
-                        builder: (context, child) => Positioned(
-                          top : listener.positionY,
-                          left: listener.positionX,
-                          child: Square(
-                            size: listener.size,
-                            color: Theme.of(context).primaryColor,
-                           ),
-                          ),
-                        ),
+                      FilledButton(
+                        onPressed: listener.canMoveUp()
+                            ? () => moveObject(listener, 0, -stepSize)
+                            : null,
+                        child: const Text('Up'),
+                      ),
                     ],
-                 ),
-              ), 
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FilledButton(
+                        onPressed: listener.canMoveLeft()
+                            ? () => moveObject(listener, -stepSize, 0)
+                            : null,
+                        child: const Text('Left'),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      FilledButton(
+                        onPressed: listener.canMoveRight(containerWidth)
+                            ? () => moveObject(listener, stepSize, 0)
+                            : null,
+                        child: const Text('Right'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FilledButton(
+                        onPressed: listener.canMoveDown(containerHeight)
+                            ? () => moveObject(listener, 0, stepSize)
+                            : null,
+                        child: const Text('Down'),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
-            Expanded(child: 
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FilledButton(
-                      onPressed: () {
-                        moveObject(listener, 0, -stepSize);},
-                        //listener.moveObj(0, -stepSize)}, 
-                      child: const Text('Up'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FilledButton(
-                      onPressed: () => moveObject(listener, -stepSize, 0),
-                      //onPressed: () => listener.moveObj(-stepSize, 0),
-                      child: const Text('Left'),
-                    ),
-                    const SizedBox(width: 20,),
-                    FilledButton(
-                      onPressed: () => moveObject(listener, stepSize, 0),
-                      //onPressed: () => listener.moveObj(stepSize, 0), 
-                      child: const Text('Right'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FilledButton(
-                      onPressed: () => moveObject(listener, 0, stepSize),
-                      //onPressed: () => listener.moveObj(0, stepSize),
-                      child: const Text('Down'), 
-                    ),
-                  ],
-                )
-              ],
-              )
-            ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 }
