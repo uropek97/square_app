@@ -11,9 +11,9 @@ class CubePage extends StatefulWidget {
 }
 
 class _CubePageState extends State<CubePage> {
-  ListenerPosition listener = ListenerPosition(100, 100);
-  double stepSize = 50;
-
+  double stepSize = 150;
+  ListenerPosition listener = ListenerPosition(0, 0);
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,24 +30,32 @@ class _CubePageState extends State<CubePage> {
           children: [
             Expanded(
               flex: 4,
-              child: Stack(
-                children: [
-                  ListenableBuilder(
-                    listenable: listener,
-                    builder: (context, child) => Positioned(
-                      top : MediaQuery.of(context).size.height / 2,
-                      left: MediaQuery.of(context).size.width / 2,
-                      child: Square(
-                        size: MediaQuery.of(context).size.width / 11,
-                        color: Theme.of(context).primaryColor,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black45),),
+                child:  
+                  Stack(
+                    children: [
+                      ListenableBuilder(
+                        listenable: (listener),
+                        builder: (context, child) => Positioned(
+                          top : listener.positionY,
+                          left: listener.positionX,
+                          child: Square(
+                            size: MediaQuery.sizeOf(context).width / 11,
+                            color: Theme.of(context).primaryColor,
+                           ),
+                          ),
                         ),
-                      ),
-                  ),
-                ],
+                    ],
+                 ),
               ), 
             ),
-            Expanded(child: Column(
-              children: [Row(
+            Expanded(child: 
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FilledButton(
@@ -56,6 +64,7 @@ class _CubePageState extends State<CubePage> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 10,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -70,6 +79,7 @@ class _CubePageState extends State<CubePage> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 10,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
