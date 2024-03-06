@@ -13,7 +13,21 @@ class CubePage extends StatefulWidget {
 class _CubePageState extends State<CubePage> {
   double stepSize = 150;
   ListenerPosition listener = ListenerPosition(0, 0);
-  
+  final GlobalKey _containerKey = GlobalKey();
+  double containerHeight = 0;
+  double containerWidth = 0;
+
+  void moveObject(ListenerPosition obj, double stepX, double stepY){
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      containerHeight = (_containerKey.currentContext!.findRenderObject()
+             as RenderBox).size.height;
+      containerWidth  = (_containerKey.currentContext!.findRenderObject()
+             as RenderBox).size.width;     
+     
+      obj.moveObj(stepX, stepY, containerHeight, containerWidth);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +43,9 @@ class _CubePageState extends State<CubePage> {
       body: Column(
           children: [
             Expanded(
-              flex: 4,
+              flex: 3,
               child: Container(
+                key: _containerKey,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black45),),
                 child:  
@@ -42,7 +57,7 @@ class _CubePageState extends State<CubePage> {
                           top : listener.positionY,
                           left: listener.positionX,
                           child: Square(
-                            size: MediaQuery.sizeOf(context).width / 11,
+                            size: listener.size,
                             color: Theme.of(context).primaryColor,
                            ),
                           ),
@@ -59,7 +74,9 @@ class _CubePageState extends State<CubePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FilledButton(
-                      onPressed: () => listener.moveObj(0, -stepSize), 
+                      onPressed: () {
+                        moveObject(listener, 0, -stepSize);},
+                        //listener.moveObj(0, -stepSize)}, 
                       child: const Text('Up'),
                     ),
                   ],
@@ -69,12 +86,14 @@ class _CubePageState extends State<CubePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FilledButton(
-                      onPressed: () => listener.moveObj(-stepSize, 0),
+                      onPressed: () => moveObject(listener, -stepSize, 0),
+                      //onPressed: () => listener.moveObj(-stepSize, 0),
                       child: const Text('Left'),
                     ),
                     const SizedBox(width: 20,),
                     FilledButton(
-                      onPressed: () => listener.moveObj(stepSize, 0), 
+                      onPressed: () => moveObject(listener, stepSize, 0),
+                      //onPressed: () => listener.moveObj(stepSize, 0), 
                       child: const Text('Right'),
                     ),
                   ],
@@ -84,7 +103,8 @@ class _CubePageState extends State<CubePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FilledButton(
-                      onPressed: () => listener.moveObj(0, stepSize),
+                      onPressed: () => moveObject(listener, 0, stepSize),
+                      //onPressed: () => listener.moveObj(0, stepSize),
                       child: const Text('Down'), 
                     ),
                   ],
