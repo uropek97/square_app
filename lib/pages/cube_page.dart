@@ -11,8 +11,26 @@ class CubePage extends StatefulWidget {
 }
 
 class _CubePageState extends State<CubePage> {
-  ListenerPosition listener = ListenerPosition(100, 100);
-  double stepSize = 50;
+  double stepSize = 150;
+  ListenerPosition listener = ListenerPosition(150, 150);
+  final GlobalKey _containerKey = GlobalKey();
+  late double containerHeight = 0;
+  late double containerWidth = 0;
+
+  void moveObject(ListenerPosition obj, double stepX, double stepY) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      containerHeight =
+          (_containerKey.currentContext!.findRenderObject() as RenderBox)
+              .size
+              .height;
+      containerWidth =
+          (_containerKey.currentContext!.findRenderObject() as RenderBox)
+              .size
+              .width;
+
+      obj.moveObj(stepX, stepY, containerHeight, containerWidth);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,67 +41,95 @@ class _CubePageState extends State<CubePage> {
         backgroundColor: Theme.of(context).primaryColor,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back),  
+          icon: const Icon(Icons.arrow_back),
         ),
       ),
       body: Column(
-          children: [
-            Expanded(
-              flex: 4,
+        children: [
+          Expanded(
+            flex: 3,
+            child: Container(
+              key: _containerKey,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black45),
+              ),
               child: Stack(
                 children: [
                   ListenableBuilder(
-                    listenable: listener,
+                    listenable: (listener),
                     builder: (context, child) => Positioned(
-                      top : MediaQuery.of(context).size.height / 2,
-                      left: MediaQuery.of(context).size.width / 2,
+                      top: listener.positionY,
+                      left: listener.positionX,
                       child: Square(
-                        size: MediaQuery.of(context).size.width / 11,
+                        size: listener.size,
                         color: Theme.of(context).primaryColor,
-                        ),
                       ),
+                    ),
                   ),
                 ],
-              ), 
+              ),
             ),
-            Expanded(child: Column(
-              children: [Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FilledButton(
-                      onPressed: () => listener.moveObj(0, -stepSize), 
-                      child: const Text('Up'),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FilledButton(
-                      onPressed: () => listener.moveObj(-stepSize, 0),
-                      child: const Text('Left'),
-                    ),
-                    const SizedBox(width: 20,),
-                    FilledButton(
-                      onPressed: () => listener.moveObj(stepSize, 0), 
-                      child: const Text('Right'),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FilledButton(
-                      onPressed: () => listener.moveObj(0, stepSize),
-                      child: const Text('Down'), 
-                    ),
-                  ],
-                )
-              ],
-              )
+          ),
+          Expanded(
+            child: ListenableBuilder(
+              listenable: listener,
+              builder: (context, child) => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FilledButton(
+                        onPressed: listener.canMoveUp()
+                            ? () => moveObject(listener, 0, -stepSize)
+                            : null,
+                        child: const Text('Up'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FilledButton(
+                        onPressed: listener.canMoveLeft()
+                            ? () => moveObject(listener, -stepSize, 0)
+                            : null,
+                        child: const Text('Left'),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      FilledButton(
+                        onPressed: listener.canMoveRight(containerWidth)
+                            ? () => moveObject(listener, stepSize, 0)
+                            : null,
+                        child: const Text('Right'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FilledButton(
+                        onPressed: listener.canMoveDown(containerHeight)
+                            ? () => moveObject(listener, 0, stepSize)
+                            : null,
+                        child: const Text('Down'),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 }
