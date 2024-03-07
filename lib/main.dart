@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.pink[100],
         filledButtonTheme: FilledButtonThemeData( 
           style: FilledButton.styleFrom(
-            backgroundColor: Colors.pink[100],
+            backgroundColor: Colors.pink[200],
           ), 
         )
       ),
