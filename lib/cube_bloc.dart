@@ -8,21 +8,21 @@ class CubePosition {
   const CubePosition(this.positionX, this.positionY);
 }
 
-List<MainAxisAlignment> positionsX = [
-  MainAxisAlignment.start,
-  MainAxisAlignment.center,
-  MainAxisAlignment.end
-];
-
-List<CrossAxisAlignment> positionsY = [
-  CrossAxisAlignment.start,
-  CrossAxisAlignment.center,
-  CrossAxisAlignment.end
-];
-
 class CubeCubit extends Cubit<CubePosition> {
   int x;
   int y;
+
+  static final List<MainAxisAlignment> positionsX = [
+    MainAxisAlignment.start,
+    MainAxisAlignment.center,
+    MainAxisAlignment.end
+  ];
+
+  static final List<CrossAxisAlignment> positionsY = [
+    CrossAxisAlignment.start,
+    CrossAxisAlignment.center,
+    CrossAxisAlignment.end
+  ];
 
   CubeCubit([this.x = 1, this.y = 1])
       : super(CubePosition(positionsX[x], positionsY[y]));
