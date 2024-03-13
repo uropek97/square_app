@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:square_app/pages/cub_page_cubit.dart';
 import 'package:square_app/pages/cube_page.dart';
 import 'package:square_app/pages/login_page.dart';
 
@@ -15,9 +16,9 @@ class MyApp extends StatelessWidget {
       title: 'Dex App',
 
       routes: {
-        //'/' :(context) => const HomePage(title: 'Home'),
         '/cube': (context) => const CubePage(),
         '/login': (context) => const LoginPage(),
+        '/cube_cubit': (context) => const CubePageCubit(),
       },
 
       initialRoute: '/',
@@ -59,7 +60,12 @@ class HomePage extends StatelessWidget {
               FilledButton(
                 onPressed: () => Navigator.of(context).pushNamed('/login'), 
                 child: const Text('User Form'),
-              )
+              ),
+              const SizedBox(height: 20,),
+              FilledButton(
+                onPressed: () => Navigator.of(context).pushNamed('/cube_cubit'), 
+                child: const Text('Cube Cubit'),
+              ),
             ]
           ),
         ),

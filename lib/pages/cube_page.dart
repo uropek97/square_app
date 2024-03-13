@@ -39,10 +39,6 @@ class _CubePageState extends State<CubePage> {
         title: Text(widget.title),
         centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back),
-        ),
       ),
       body: Column(
         children: [
